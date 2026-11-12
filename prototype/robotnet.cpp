@@ -1,29 +1,3 @@
-// robotnet.cpp - Prototype v2 (2026)
-//
-// Meet datadoorvoer (throughput), latency (RTT), jitter en packet loss tussen een
-// "robot" (client) en een "vlootserver" (server), zodat WiFi en 5G eerlijk vergeleken
-// kunnen worden met precies dezelfde tests.
-//
-// Verbeteringen t.o.v. prototype v1 (2025):
-//  - Tijd wordt gemeten tot de ONTVANGER bevestigt (ack), niet tot send() terugkeert.
-//    (v1 mat bij de client alleen het kopiëren naar de OS-buffer -> 0,00 ms waarden.)
-//  - UDP-modus met volgnummers: packet loss en jitter zijn nu echt meetbaar
-//    (TCP verbergt verlies door retransmissies).
-//  - Datatypes gebaseerd op een ROS2-zorgrobot (commando, sensor, camera, kaart).
-//  - Herhalingen (--runs) en ruwe meetdata per bericht naar CSV voor data-analyse.
-//  - Alle send/recv return-waarden worden gecontroleerd; host/poort via argumenten.
-//  - Cross-platform: Windows (Winsock) en Linux/Raspberry Pi (POSIX).
-//
-// Compileren Windows (x64 Native Tools / Developer Prompt):
-//     cl /EHsc /O2 /std:c++17 /MT robotnet.cpp
-// Compileren Linux / Raspberry Pi:
-//     g++ -O2 -std=c++17 -pthread robotnet.cpp -o robotnet
-//
-// Gebruik:
-//     robotnet server [--port 5201]
-//     robotnet client --host <ip|naam> --network wifi|5g --location A [--runs 3]
-//                     [--port 5201] [--out metingen.csv] [--quick] [--udp-seconds 15]
-
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -68,9 +42,9 @@ static bool sock_ok(sock_t s) { return s >= 0; }
 
 using namespace std::chrono;
 
-static const uint32_t MAGIC = 0x524F424F;  // "ROBO": herkenning van eigen UDP-pakketten
-static const uint32_t MODE_UPLOAD = 1;     // robot -> server, server stuurt ack per bericht
-static const uint32_t MODE_DOWNLOAD = 2;   // server -> robot, op verzoek van robot
+static const uint32_t MAGIC = 0x524F424F;  
+static const uint32_t MODE_UPLOAD = 1;    
+static const uint32_t MODE_DOWNLOAD = 2; 
 
 static int64_t now_ns() {
     return duration_cast<nanoseconds>(steady_clock::now().time_since_epoch()).count();
@@ -167,7 +141,7 @@ static void udp_echo_loop(uint16_t port) {
         sockaddr_in from{};
         socklen_t fl = sizeof(from);
         int n = recvfrom(u, pkt.data(), (int)pkt.size(), 0, (sockaddr*)&from, &fl);
-        if (n <= 0) continue;  // o.a. WSAECONNRESET op Windows: negeren
+        if (n <= 0) continue; 
         sendto(u, pkt.data(), n, 0, (sockaddr*)&from, fl);  // echo terug naar robot
     }
 }
@@ -214,7 +188,7 @@ static int run_server(uint16_t port) {
         std::cerr << "[tcp] bind/listen mislukt op poort " << port << "\n";
         return 1;
     }
-    std::cout << "Vlootserver actief op TCP+UDP poort " << port << " (Ctrl+C om te stoppen)\n";
+    std::cout << "Fleet manager actief op TCP+UDP poort " << port << " (Ctrl+C om te stoppen)\n";
     for (;;) {
         sockaddr_in from{};
         socklen_t fl = sizeof(from);

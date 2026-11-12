@@ -14,8 +14,7 @@ De onderzoeksverslaglegging (probleemanalyse, resultaten, MCA, conclusie) staat 
 
 ```bash
 # 1. Bouwen
-cl /EHsc /O2 /std:c++17 /MT prototype/robotnet.cpp          # Windows (VS Developer Prompt)
-g++ -O2 -std=c++17 -pthread prototype/robotnet.cpp -o robotnet  # Linux / Raspberry Pi
+prototype\build.bat    # Windows, Visual Studio 2022 (MSVC)
 
 # 2. Server (bekabeld, poort 5201 TCP+UDP open in firewall)
 robotnet server

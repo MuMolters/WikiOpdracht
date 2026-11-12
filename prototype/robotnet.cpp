@@ -1,4 +1,3 @@
-#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <winsock2.h>
@@ -10,19 +9,6 @@
 using sock_t = SOCKET;
 static void close_sock(sock_t s) { closesocket(s); }
 static bool sock_ok(sock_t s) { return s != INVALID_SOCKET; }
-#else
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <unistd.h>
-using sock_t = int;
-static const sock_t INVALID_SOCKET = -1;
-static void close_sock(sock_t s) { close(s); }
-static bool sock_ok(sock_t s) { return s >= 0; }
-#endif
 
 #include <algorithm>
 #include <atomic>
@@ -53,11 +39,7 @@ static int64_t now_ns() {
 static std::string timestamp() {
     std::time_t t = std::time(nullptr);
     std::tm tm{};
-#ifdef _WIN32
     localtime_s(&tm, &t);
-#else
-    localtime_r(&t, &tm);
-#endif
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tm);
     return buf;
@@ -93,13 +75,8 @@ static void set_nodelay(sock_t s) {
 }
 
 static void set_recv_timeout(sock_t s, int ms) {
-#ifdef _WIN32
     DWORD t = (DWORD)ms;
     setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (const char*)&t, sizeof(t));
-#else
-    timeval tv{ms / 1000, (ms % 1000) * 1000};
-    setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv));
-#endif
 }
 
 static bool resolve(const std::string& host, uint16_t port, sockaddr_in& out) {
@@ -395,7 +372,7 @@ static int run_client(const std::string& host, uint16_t port, const std::string&
         std::cerr << "Kan host niet vinden: " << host << "\n";
         return 1;
     }
-    // Testsuite: berichttypes van een ROS2-zorgrobot (zie wiki, deelvraag 1).
+    // Testsuite: berichttypes van een zorgrobot (zie wiki, deelvraag 1).
     std::vector<TestDef> suite = {
         {"commando_20hz", true, 0, 64, 20, 0},              // cmd_vel / stopcommando
         {"sensor_10hz", true, 0, 1200, 10, 0},              // gereduceerde lidar-scan / odometrie
@@ -435,11 +412,9 @@ static bool flag(int argc, char** argv, const std::string& key) {
 }
 
 int main(int argc, char** argv) {
-#ifdef _WIN32
     WSADATA wsa;
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) return 1;
     timeBeginPeriod(1);  // nauwkeurigere sleep voor UDP-verzendritme
-#endif
     std::string cmd = argc > 1 ? argv[1] : "";
     uint16_t port = (uint16_t)std::stoi(arg(argc, argv, "--port", "5201"));
     int rc = 1;
@@ -463,9 +438,7 @@ int main(int argc, char** argv) {
                      "                  [--runs 3] [--port 5201] [--out metingen.csv]\n"
                      "                  [--quick] [--udp-seconds 15]\n";
     }
-#ifdef _WIN32
     timeEndPeriod(1);
     WSACleanup();
-#endif
     return rc;
 }

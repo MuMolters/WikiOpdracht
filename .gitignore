@@ -1,0 +1,8 @@
+*.obj
+*.exe
+*.pdb
+*.ilk
+__pycache__/
+*.zip
+wiki/
+figuren/

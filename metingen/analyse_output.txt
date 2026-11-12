@@ -1,0 +1,71 @@
+﻿117018 metingen | netwerken: ['wifi', '5g', '4g'] | locaties: ['B', 'C']
+Figuren: fig_rtt_commando.png, fig_doorvoer.png, fig_packetloss.png, fig_jitter.png, fig_camera.png, fig_iteratie_relay_vs_direct.png
+### UDP-datastromen (RTT)
+
+| Netwerk | Locatie | Test | n | Loss (%) | Gem. (ms) | Mediaan (ms) | p95 (ms) | SD (ms) | Jitter (ms) |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| WiFi | B | commando_20hz | 900 | 0.00 | 3.91 | 3.14 | 7.88 | 2.40 | 1.56 |
+| WiFi | C | commando_20hz | 900 | 0.00 | 13.22 | 2.86 | 83.94 | 34.99 | 8.82 |
+| 5G | B | commando_20hz | 900 | 0.00 | 88.08 | 41.00 | 282.54 | 89.69 | 35.47 |
+| 5G | C | commando_20hz | 900 | 0.11 | 485.24 | 25.87 | 2426.29 | 892.54 | 22.05 |
+| 4G (referentie) | B | commando_20hz | 900 | 0.00 | 35.17 | 27.89 | 79.86 | 25.77 | 8.43 |
+| 4G (referentie) | C | commando_20hz | 900 | 0.00 | 2126.72 | 293.47 | 9344.58 | 3265.54 | 37.45 |
+| WiFi | B | sensor_10hz | 450 | 0.00 | 3.75 | 3.34 | 5.74 | 1.58 | 1.01 |
+| WiFi | C | sensor_10hz | 450 | 0.00 | 5.42 | 3.11 | 8.88 | 12.38 | 2.85 |
+| 5G | B | sensor_10hz | 450 | 0.00 | 77.10 | 46.60 | 226.45 | 66.62 | 26.42 |
+| 5G | C | sensor_10hz | 450 | 0.00 | 1174.20 | 761.33 | 3080.74 | 1196.30 | 61.92 |
+| 4G (referentie) | B | sensor_10hz | 450 | 0.00 | 94.50 | 46.87 | 320.53 | 115.39 | 21.79 |
+| 4G (referentie) | C | sensor_10hz | 450 | 0.00 | 281.28 | 168.08 | 1190.14 | 309.08 | 35.51 |
+| WiFi | B | sensor_400hz | 18000 | 0.00 | 2.81 | 2.23 | 5.42 | 2.43 | 0.64 |
+| WiFi | C | sensor_400hz | 18000 | 0.00 | 4.27 | 2.18 | 5.54 | 12.80 | 0.73 |
+| 5G | B | sensor_400hz | 18000 | 1.29 | 725.13 | 212.90 | 2334.85 | 872.71 | 4.18 |
+| 5G | C | sensor_400hz | 18000 | 53.14 | 2416.85 | 1934.92 | 6190.36 | 2778.23 | 12.43 |
+| 4G (referentie) | B | sensor_400hz | 18000 | 0.00 | 620.80 | 475.13 | 1583.18 | 556.91 | 3.22 |
+| 4G (referentie) | C | sensor_400hz | 18000 | 48.31 | 3201.35 | 3100.99 | 6932.58 | 2030.93 | 4.77 |
+
+### TCP-overdracht
+
+| Netwerk | Locatie | Test | n | Mislukt (%) | Gem. tijd (ms) | p95 (ms) | Doorvoer gem. (Mbit/s) | SD (Mbit/s) |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| WiFi | B | camera_50kB | 120 | 0.00 | 6.85 | 9.98 | 64.25 | 13.63 |
+| WiFi | C | camera_50kB | 120 | 0.00 | 5.57 | 8.57 | 89.01 | 25.98 |
+| 5G | B | camera_50kB | 120 | 0.00 | 206.94 | 448.93 | 2.46 | 1.08 |
+| 5G | C | camera_50kB | 120 | 0.00 | 324.96 | 787.75 | 2.26 | 1.18 |
+| 4G (referentie) | B | camera_50kB | 120 | 0.00 | 104.77 | 161.54 | 4.12 | 1.09 |
+| 4G (referentie) | C | camera_50kB | 120 | 0.00 | 490.12 | 1065.86 | 1.14 | 0.62 |
+| WiFi | B | kaart_1MB | 15 | 0.00 | 28.11 | 36.91 | 293.30 | 49.24 |
+| WiFi | C | kaart_1MB | 15 | 0.00 | 32.16 | 53.67 | 271.83 | 66.24 |
+| 5G | B | kaart_1MB | 15 | 0.00 | 1218.81 | 2525.08 | 9.69 | 5.69 |
+| 5G | C | kaart_1MB | 15 | 0.00 | 865.72 | 3560.93 | 37.51 | 26.98 |
+| 4G (referentie) | B | kaart_1MB | 15 | 0.00 | 919.03 | 1735.44 | 10.90 | 5.09 |
+| 4G (referentie) | C | kaart_1MB | 15 | 0.00 | 11582.18 | 52252.91 | 9.89 | 10.85 |
+| WiFi | B | bulk_up | 9 | 0.00 | 402.52 | 431.31 | 199.55 | 13.62 |
+| WiFi | C | bulk_up | 9 | 0.00 | 379.40 | 547.16 | 221.45 | 43.23 |
+| 5G | B | bulk_up | 9 | 0.00 | 15038.08 | 23195.67 | 5.81 | 1.68 |
+| 5G | C | bulk_up | 9 | 0.00 | 18607.85 | 36333.10 | 5.07 | 1.72 |
+| 4G (referentie) | B | bulk_up | 9 | 0.00 | 11357.57 | 19116.93 | 8.01 | 2.72 |
+| 4G (referentie) | C | bulk_up | 9 | 0.00 | 52719.33 | 76964.82 | 1.77 | 0.75 |
+| WiFi | B | bulk_down | 9 | 0.00 | 199.47 | 216.33 | 402.51 | 25.75 |
+| WiFi | C | bulk_down | 9 | 0.00 | 242.48 | 288.53 | 333.28 | 33.90 |
+| 5G | B | bulk_down | 9 | 0.00 | 5302.64 | 10399.31 | 18.89 | 8.40 |
+| 5G | C | bulk_down | 9 | 0.00 | 4306.19 | 9543.15 | 33.25 | 32.36 |
+| 4G (referentie) | B | bulk_down | 9 | 0.00 | 6389.35 | 9204.02 | 13.60 | 4.30 |
+| 4G (referentie) | C | bulk_down | 9 | 0.00 | 8109.66 | 12375.71 | 10.84 | 3.32 |
+
+### Totaal per netwerk (alle locaties samen) – input voor MCA
+
+| Netwerk | RTT commando gem. (ms) | RTT commando p95 (ms) | Jitter commando (ms) | Loss sensor_400hz (%) | Camera p95 (ms) | Upload (Mbit/s) | Download (Mbit/s) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| WiFi | 8.57 | 26.23 | 5.19 | 0.00 | 9.98 | 210.50 | 367.90 |
+| 5G | 286.55 | 2332.53 | 28.76 | 27.22 | 670.57 | 5.44 | 26.07 |
+| 4G (referentie) | 1080.94 | 8295.11 | 22.94 | 24.16 | 760.60 | 4.89 | 12.22 |
+
+### Iteratie 1 (relay) vs iteratie 2 (direct) – locatie B
+
+| Netwerk | Route | RTT commando mediaan (ms) | p95 (ms) | Loss sensor_400hz (%) | Upload (Mbit/s) | Download (Mbit/s) |
+|---|---|---:|---:|---:|---:|---:|
+| 5G | relay (DERP) | 33.83 | 1485.62 | 0.00 | 7.07 | 20.61 |
+| 5G | direct | 41.00 | 282.54 | 1.29 | 5.81 | 18.89 |
+| 4G (referentie) | relay (DERP) | 37.11 | 5379.75 | 10.68 | 4.42 | 14.35 |
+| 4G (referentie) | direct | 27.89 | 79.86 | 0.00 | 8.01 | 13.60 |
+
